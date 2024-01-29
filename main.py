@@ -9,4 +9,4 @@ additif_object = Additif(data_preparation_object)
 data_preparation_object.display_dataframe()
 #data_preparation_object.show_graph()
 
-# Fait par  HAMZA LAZTOUTI  ET Johannes AFOUDAH
+
