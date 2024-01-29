@@ -1,4 +1,4 @@
 # Additif-Model
 
 the result : 
-![Figure_1](https://github.com/Melchissedeck/Additif-Model/assets/156782976/5a27f80b-ff96-4927-9aa5-691f4548be1e)
+![Figure_1](https://github.com/Melchissedeck/Additif-Model/assets/156782976/37908b7a-c328-4f72-9c0a-93beed5cd70d)
