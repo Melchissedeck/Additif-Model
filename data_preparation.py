@@ -1,43 +1,38 @@
-import pandas
-import numpy
+# data_preparation.py
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 class DataPreparation:
-	def __init__(self, csv_path):
-		"""
-		Cette classe prend en entrée un chemin de fichier csv.
-		Elle split le jeu de donnée en 2 bases 
-		+ une train 75 %
-		+ une test 25 %
-		Ce 2 bases, la classe va les splits en 2 
+    def __init__(self, csv_path):
+        self.dataset_df = pd.read_csv(csv_path)
+        self.dataset_df["Years"] = pd.to_datetime(self.dataset_df["Years"])
+        self.prepare_data()
 
-		+ un vecteur x (qui contient les indexs temporels)
-		+ un vecteyr y (qui contient les valeurs à prédire)
-		En tout cette va extraire 4 arrays.
-		x_train
-		y_train
-		x_test
-		y_test
-		"""
-		self.dataset_df = pandas.read_csv(csv_path)
-		self.dataset_df["month"] = pandas.to_datetime(self.dataset_df["month"])
-		self.prepare_data()
+    def prepare_data(self):
+        self.dataset_df['month_name'] = self.dataset_df['Years'].dt.month
+        self.dataset_df = pd.get_dummies(self.dataset_df, columns=['month_name'],prefix='month')
 
-	def prepare_data(self):
-		number_of_rows = len(self.dataset_df)
-		self.dataset_df["index_mesure"] = numpy.arange(0, number_of_rows, 1)
+        number_of_rows = len(self.dataset_df)
+        self.dataset_df["index_mesure"] = np.arange(0, number_of_rows, 1)
 
-		dataset_train_df = self.dataset_df.iloc[ : int(number_of_rows*0.75)]
-		dataset_test_df = self.dataset_df.iloc[int(number_of_rows*0.75): ]
-
-		self.x_train = dataset_train_df[['index_mesure']].values
-		self.y_train = dataset_train_df[['passengers']].values
-
-		self.x_test = dataset_test_df[['index_mesure']].values
-		self.y_test = dataset_test_df[['passengers']].values
+        dataset_train_df = self.dataset_df.iloc[:int(number_of_rows * 0.75)]
+        dataset_test_df = self.dataset_df.iloc[int(number_of_rows * 0.75):]
 
 
-	def show_graph(self):
-		plt.figure(figsize=(15, 6))
-		plt.plot(self.dataset_df["month"], self.dataset_df["passengers"], "o:")
-		plt.show()
+
+        self.x_train = dataset_train_df[['index_mesure', 'month_1', 'month_2', 'month_3', 'month_4', 'month_5', 'month_6', 'month_7', 'month_8', 'month_9', 'month_10', 'month_11', 'month_12']].values
+        self.y_train = dataset_train_df[['Sales']].values
+
+        self.x_test = dataset_test_df[['index_mesure', 'month_1', 'month_2', 'month_3', 'month_4', 'month_5', 'month_6', 'month_7', 'month_8', 'month_9', 'month_10', 'month_11', 'month_12']].values
+        self.y_test = dataset_test_df[['Sales']].values
+
+    def show_graph(self):
+        plt.figure(figsize=(15, 6))
+        plt.plot(self.dataset_df["Years"], self.dataset_df["Sales"], "o:")
+        plt.show()
+
+
+    def display_dataframe(self):
+        print(self.dataset_df)
+
